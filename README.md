@@ -1,2 +1,3 @@
 # generic-global-variables
-Implements genric global variables in Rust using anymap2
+
+Provides tools for implement generic global variables.
