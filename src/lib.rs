@@ -41,6 +41,7 @@ impl GenericGlobal {
         let arc: Arc<dyn Any> = Arc::new(f());
         let option = guard.insert(typeid, Arc::clone(&arc));
 
+        // There cannot be any other write that insert the key.
         debug_assert!(option.is_none());
 
         Entry::new(arc)
