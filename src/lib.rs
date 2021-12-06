@@ -15,7 +15,7 @@ use parking_lot::{RwLock, RwLockUpgradableReadGuard};
 /// use std::thread::spawn;
 /// use std::sync::Mutex;
 ///
-/// fn get_buffer<T>(f: impl FnOnce() -> T) -> Entry<T> {
+/// fn get_buffer<T: Send + Sync>(f: impl FnOnce() -> T) -> Entry<T> {
 ///     static GLOBALS: OnceCell<GenericGlobal> = OnceCell::new();
 ///
 ///     let globals = GLOBALS.get_or_init(GenericGlobal::new);
@@ -66,7 +66,7 @@ impl GenericGlobal {
         Self::default()
     }
 
-    pub fn get_or_init<T: 'static>(&self, f: impl FnOnce() -> T) -> Entry<T> {
+    pub fn get_or_init<T: 'static + Send + Sync>(&self, f: impl FnOnce() -> T) -> Entry<T> {
         let typeid = TypeId::of::<T>();
 
         if let Some(val) = self.0.read().get(&typeid) {
