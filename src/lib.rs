@@ -1,4 +1,5 @@
 use core::any::{Any, TypeId};
+use core::fmt;
 use core::marker::PhantomData;
 use core::ops::Deref;
 
@@ -63,6 +64,12 @@ impl<T: 'static> Deref for Entry<T> {
 
     fn deref(&self) -> &Self::Target {
         <dyn Any>::downcast_ref::<T>(&*self.0).unwrap()
+    }
+}
+
+impl<T: 'static + fmt::Display> fmt::Display for Entry<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Display::fmt(self.deref(), f)
     }
 }
 
