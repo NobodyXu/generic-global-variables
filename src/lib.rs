@@ -99,6 +99,9 @@ impl GenericGlobal {
     }
 }
 
+unsafe impl Send for GenericGlobal {}
+unsafe impl Sync for GenericGlobal {}
+
 /// A reference to the entry
 #[derive(Debug, Clone)]
 pub struct Entry<T: 'static>(Arc<dyn Any>, PhantomData<T>);
