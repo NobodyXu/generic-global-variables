@@ -11,6 +11,10 @@ use parking_lot::{RwLock, RwLockUpgradableReadGuard};
 pub struct GenericGlobal(RwLock<HashMap<TypeId, Arc<dyn Any>>>);
 
 impl GenericGlobal {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
     pub fn get_or_init<T: 'static>(&self, f: impl FnOnce() -> T) -> Entry<T> {
         let typeid = TypeId::of::<T>();
 
