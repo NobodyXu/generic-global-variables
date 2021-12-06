@@ -8,6 +8,56 @@ use std::sync::Arc;
 
 use parking_lot::{RwLock, RwLockUpgradableReadGuard};
 
+/// ```
+/// use once_cell::sync::OnceCell;
+/// use generic_global_variables::*;
+///
+/// use std::thread::spawn;
+/// use std::sync::Mutex;
+///
+/// fn get_buffer<T>(f: impl FnOnce() -> T) -> Entry<T> {
+///     static GLOBALS: OnceCell<GenericGlobal> = OnceCell::new();
+///
+///     let globals = GLOBALS.get_or_init(GenericGlobal::new);
+///     globals.get_or_init(f)
+/// }
+///
+/// let handles1: Vec<_> = (0..24).map(|_| {
+///     spawn(|| {
+///         let arc = get_buffer(Mutex::<Vec::<Box<[u8]>>>::default);
+///         let buffer = arc.lock()
+///             .unwrap()
+///             .pop()
+///             .unwrap_or_else(|| vec![0 as u8; 20].into_boxed_slice());
+///         // Read some data into buffer and process it
+///         // ...
+///
+///         arc.lock().unwrap().push(buffer);
+///     })
+/// }).collect();
+///
+/// let handles2: Vec<_> = (0..50).map(|_| {
+///     spawn(|| {
+///         let arc = get_buffer(Mutex::<Vec::<Box<[u32]>>>::default);
+///         let buffer = arc.lock()
+///             .unwrap()
+///             .pop()
+///             .unwrap_or_else(|| vec![1 as u32; 20].into_boxed_slice());
+///         // Read some data into buffer and process it
+///         // ...
+///
+///         arc.lock().unwrap().push(buffer);
+///     })
+/// }).collect();
+///
+/// for handle in handles1 {
+///     handle.join();
+/// }
+///
+/// for handle in handles2 {
+///     handle.join();
+/// }
+/// ```
 #[derive(Default, Debug)]
 pub struct GenericGlobal(RwLock<HashMap<TypeId, Arc<dyn Any>>>);
 
