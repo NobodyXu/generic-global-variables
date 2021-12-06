@@ -3,7 +3,14 @@ name = "generic-global-variables"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Jiahao XU <Jiahao_XU@outlook.com>"]
+
+license = "MIT"
+description = "Provides tools for implement generic global variables."
+repository = "https://github.com/NobodyXu/generic-global-variables"
+
+keywords = ["utilities"]
+categories = []
 
 [dependencies]
 parking_lot = "0.11.2"
