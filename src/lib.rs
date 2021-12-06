@@ -73,5 +73,11 @@ impl<T: 'static + fmt::Display> fmt::Display for Entry<T> {
     }
 }
 
+impl<T: 'static> fmt::Pointer for Entry<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Pointer::fmt(&self.0, f)
+    }
+}
+
 #[cfg(test)]
 mod tests {}
