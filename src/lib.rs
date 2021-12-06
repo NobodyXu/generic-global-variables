@@ -106,6 +106,9 @@ unsafe impl Sync for GenericGlobal {}
 #[derive(Debug, Clone)]
 pub struct Entry<T: 'static>(Arc<dyn Any>, PhantomData<T>);
 
+unsafe impl<T: 'static + Send + Sync> Send for Entry<T> {}
+unsafe impl<T: 'static + Send + Sync> Sync for Entry<T> {}
+
 impl<T: 'static> Entry<T> {
     fn new(arc: Arc<dyn Any>) -> Self {
         Self(arc, PhantomData)
