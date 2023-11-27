@@ -13,7 +13,7 @@ keywords = ["utilities"]
 categories = []
 
 [dependencies]
-parking_lot = "0.11.2"
+parking_lot = "0.12"
 
 [dev-dependencies]
 once_cell = "1.8.0"
