@@ -1,6 +1,6 @@
 [package]
 name = "generic-global-variables"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 
 authors = ["Jiahao XU <Jiahao_XU@outlook.com>"]
